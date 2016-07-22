@@ -12,7 +12,8 @@
         vm.msg = ""
 
         vm.addToCart = function() {
-            CartService.addToCart()
+
+            CartService.addToCart(vm.newItem)
               .then(function() {
                   vm.msg = "Item was added to cart successfully"
               })
@@ -22,7 +23,8 @@
         }
 
         vm.refreshCart = function() {
-            CartService.refreshCart()
+          console.log(vm.newItem.userId)
+            CartService.refreshCart(vm.newItem.userId)
               .then(function(items) {
                   vm.cart = items
               })

@@ -5,10 +5,12 @@
   CartService.$inject = ["$http", "$q"]
 
   function CartService($http, $q) {
-      this.refreshCart = function() {
+      this.refreshCart = function(userId) {
           var defer = $q.defer()
 
-          $http.get("/api/cart/refresh")
+          $http.get("/api/cart/refresh", {params: {
+            userId: userId
+          }})
             .then(function(results) {
                 return defer.resolve(results.data)
             })
@@ -19,10 +21,10 @@
           return defer.promise
       }
 
-      this.addToCart = function() {
+      this.addToCart = function(item) {
           var defer = $q.defer()
 
-          $http.post("/api/cart/add")
+          $http.post("/api/cart/add", item)
             .then(function(results) {
                 return defer.resolve(results.data)
             })
