@@ -2,6 +2,15 @@ var express = require("express")
 var bodyParser = require("body-parser")
 var session = require("express-session")
 
+var MySQLStore = require("express-mysql-session")(session)
+
+var mysqlstore = new MySQLStore({
+    host: "localhost",
+    user: "root",
+    password: "abcde",
+    database: "my_sessions"
+})
+
 const PORT = process.argv[2] || process.env.NODE_PORT || 3000
 
 var app = express();
@@ -14,7 +23,8 @@ function generateRandomId() {
 app.use(session({
     secret: "lt7P0tx4t4",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: mysqlstore
 }))
 
 app.use(function(req, res, next) {
