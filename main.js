@@ -1,6 +1,7 @@
 var express = require("express")
 var bodyParser = require("body-parser")
-
+var cookieParser = require("cookie-parser")
+var count = 1;
 const PORT = process.argv[2] || process.env.NODE_PORT || 3000
 
 var app = express();
@@ -8,6 +9,20 @@ var app = express();
 var cart = {
 };
 
+function generateRandomId() {
+    count = count + 1;
+    return count;
+}
+
+app.use(cookieParser(), function(req, res, next) {
+    console.log("Cookie list: ", req.cookies);
+
+    if(! req.cookies.userId) {
+        res.cookie("userId", generateRandomId())
+    }
+
+    next(); // next function in this
+})
 
 app.use(express.static(__dirname + "/public"))
 
@@ -18,10 +33,12 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.post("/api/cart/add", function(req, res) {
-    var userid = req.body.userId
+    var userid = req.cookies.userId
+
+
     console.log("Cart for userid", userid, cart[userid]);
-    if(! cart[userId]){
-      cart[userId] = []
+    if(! cart[userid]){
+      cart[userid] = []
     }
 
     cart[userid].push({                // Push new value in array
@@ -35,14 +52,14 @@ app.post("/api/cart/add", function(req, res) {
 
 app.get("/api/cart/refresh", function(req, res) {
     console.log("Sending back cart information")
-    var userid = req.query.userId
+    var userid = req.cookies.userId
 
     res.json(cart[userid])
 })
 
 app.post("/api/cart/checkout", function(req, res) {
     console.log("Cart has been checked out")
-    var userid = req.body.userId
+    var userid = req.cookies.userId
     cart[userid] = []
     res.status(202).end()
 })

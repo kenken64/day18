@@ -23,7 +23,6 @@
         }
 
         vm.refreshCart = function() {
-          console.log(vm.newItem.userId)
             CartService.refreshCart(vm.newItem.userId)
               .then(function(items) {
                   vm.cart = items
