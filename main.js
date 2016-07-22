@@ -34,8 +34,6 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.post("/api/cart/add", function(req, res) {
-    console.log(req.session);
-
     req.session.cart.push({                // Push new value in array
       name: req.body.name,
       quantity: req.body.quantity
@@ -47,12 +45,12 @@ app.post("/api/cart/add", function(req, res) {
 
 app.get("/api/cart/refresh", function(req, res) {
     console.log("Sending back cart information")
-    var cart = req.session.cart
-    res.json(cart)
+    res.json(req.session.cart)
 })
 
 app.post("/api/cart/checkout", function(req, res) {
-    req.session.cart = [];
+    console.log("Cart has been checked out")
+    req.session.cart = []
     res.status(202).end()
 })
 
