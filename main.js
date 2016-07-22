@@ -1,30 +1,17 @@
 var express = require("express")
 var bodyParser = require("body-parser")
+var cookieSession = require("cookie-session")
+
 var session = require("express-session")
-
-var MySQLStore = require("express-mysql-session")(session)
-
-var mysqlstore = new MySQLStore({
-    host: "localhost",
-    user: "root",
-    password: "abcde",
-    database: "my_sessions"
-})
 
 const PORT = process.argv[2] || process.env.NODE_PORT || 3000
 
 var app = express();
 
-function generateRandomId() {
-    count = count + 1;
-    return count;
-}
-
-app.use(session({
+app.use(cookieSession({
     secret: "lt7P0tx4t4",
     resave: false,
-    saveUninitialized: true,
-    store: mysqlstore
+    saveUninitialized: true
 }))
 
 app.use(function(req, res, next) {
