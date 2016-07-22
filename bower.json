@@ -1,0 +1,21 @@
+{
+  "name": "day18",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Roni C Thomas <roni.thomas@tothenew.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.7"
+  }
+}
